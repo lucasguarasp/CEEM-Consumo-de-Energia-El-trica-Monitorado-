@@ -1,0 +1,402 @@
+﻿@model IEnumerable<ProjetoCEEM.Models.TaxaTarifaria>
+@{
+    /**/
+
+    /**/
+
+    /**/
+
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdministrativaFull.cshtml";
+}
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+<script>
+    function openFeedback(link) {
+        $('#TaxaView').modal('show');
+        $("#lista > div").each(function () {
+            $(this).attr("style", "display:none");
+        });
+        var div = $("#" + link);
+        $("#" + link).attr("style", "display:block");
+        //console.log(link);
+    };
+
+    function closeModal() {
+
+        $("#TaxaView").modal('hide');
+        console.log('Close fired');
+
+    };
+
+    function Mudarestado(el) {
+        var display = document.getElementById(el).style.display;
+        if (display == "none")
+            document.getElementById(el).style.display = 'block';
+        else
+            document.getElementById(el).style.display = 'none';
+    }
+</script>
+
+@{
+    if (TempData["message"] != null)
+    {
+        <script type="text/javascript">
+
+            var texto = @Html.Raw(Json.Encode(TempData["message"]));
+            setTimeout(function Mensagem() {
+                swal({
+                    title: "Ativado!",
+                    text: texto,
+                    type: "success",
+                    confirmButtonText: "OK"
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+
+                        }
+                    });
+            }, 500);
+        </script>
+    }
+}
+
+<script type="text/javascript">
+    function Validar(id) {
+        swal({
+            title: "Deseja ativar a bandeira?",
+            text: "Por favor verifique as informações antes de submeter!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Sim",
+            cancelButtonText: "Não",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm){
+                if (isConfirm) {
+                         window.location.href = "@Url.Action("AlterarBandeira", "Gerenciamento")?id=" + id;
+                } else {
+                        swal("Não Ativado", "A bandeira não foi ativada!", "error");
+                }
+            });
+    }
+</script>
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-primary">Gerencimaneto</h3>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Bandeiras</h4>
+            <div class="row col-lg-12">
+                <div class="col-md-3">
+                    <div class="card p-20" style="background-color: green !important;">
+                        <!-- Tipo do card -->
+                        <div class="media widget-ten">
+                            <div class="media-left meida media-middle">
+                                <span><i class="ti-flag-alt f-s-40"></i></span> <!-- Tipo do icone no card -->
+                            </div>
+                            <div class="media-body media-text-right">
+                                <p class="m-b-0"><strong>Verde</strong></p>
+                                <h5 class="color-white">Não há alterção</h5>
+                                <p class="m-b-0">no valor da tarifa</p>
+                                <p class="m-b-0">de energia</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<a href="@Url.Action("AlterarBandeira", "Gerenciamento", new { id = 1})" class="btn btn-success btn-rounded" style="width: 100%" onclick="Validate(this, event);">*@
+                    <a href="#" class="btn btn-success btn-rounded" style="width: 100%" onclick="Validar(1);">
+                        Ativar
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card bg-warning-dark p-20">
+                        <!-- Tipo do card -->
+                        <div class="media widget-ten">
+                            <div class="media-left meida media-middle">
+                                <span><i class="ti-flag-alt f-s-40"></i></span> <!-- Tipo do icone no card -->
+                            </div>
+                            <div class="media-body media-text-right">
+                                <p class="m-b-0"><strong>Amarela</strong></p>
+                                <h2 class="color-white">R$ 1,00</h2>
+                                <p class="m-b-0">a cada 100kWh</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-success btn-rounded" style="width: 100%" onclick="Validar(2);">
+                        Ativar
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card bg-danger p-20">
+                        <!-- Tipo do card -->
+                        <div class="media widget-ten">
+                            <div class="media-left meida media-middle">
+                                <span><i class="ti-flag-alt f-s-40"></i></span> <!-- Tipo do icone no card -->
+                            </div>
+                            <div class="media-body media-text-right">
+                                <p class="m-b-0"><strong>Vermelha 1</strong></p>
+                                <h2 class="color-white">R$ 3,00</h2>
+                                <p class="m-b-0">a cada 100kWh</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-success btn-rounded" style="width: 100%" onclick="Validar(3);">
+                        Ativar
+                    </a>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card bg-danger-dark p-20">
+                        <!-- Tipo do card -->
+                        <div class="media widget-ten">
+                            <div class="media-left meida media-middle">
+                                <span><i class="ti-flag-alt f-s-40"></i></span> <!-- Tipo do icone no card -->
+                            </div>
+                            <div class="media-body media-text-right">
+                                <p class="m-b-0"><strong>Vermelha 2</strong></p>
+                                <h2 class="color-white">R$ 5,00</h2>
+                                <p class="m-b-0">a cada 100kWh</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-success btn-rounded" style="width: 100%" onclick="Validar(4);">
+                        Ativar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="row col-lg-12">
+                <h4 class="card-title col-10">Taxas Tarifárias</h4>
+                <div class="text-right">
+                    <button type="button" class="btn btn-default" onclick="Mudarestado('addTaxa')">
+                        <i class="fa fa-plus"> ADICIONAR</i>
+                    </button>
+                </div>
+            </div>
+            <div id="addTaxa" style="display: none">
+                <div class="row col-lg-12">
+                    <div class="col-lg-4">
+                        <label>Distribuidora: </label>
+                        <input type="text" id="txtDistribuidora" class="form-control" />
+                    </div>
+                    <div class="col-lg-2">
+                        <label>UF: </label>
+                        <input type="text" id="txtUF" class="form-control" />
+                    </div>
+                    <div class="col-lg-2">
+                        <label>Valor da taxa: </label>
+                        <input type="text" id="txtValor" class="form-control" />
+                    </div>
+                    <div class="col-lg-4 ">
+                        <label>&nbsp;</label>
+                        <a href="#" class="btn btn-success custom-control addTaxa">
+                            <i class="fa fa-plus"> ADICIONAR</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+
+            <table id="example13" class="table table-hover table-striped table-bordered">
+                <thead>
+                    <tr role="row">
+                        <th class="sorting" style="width: 70%;">Distribuidora</th>
+                        <th style="width: 5%;">UF</th>
+                        <th class="sorting" style="width: 15%;">Valor R$</th>
+                        <th class="sorting" style="width: 10%;">Alterar</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Distribuidora)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Uf)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Valor)
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-target="#TaxaView" data-toggle="modal" onClick="openFeedback('@item.Id')">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- The Modal -->
+<div class="modal" tabindex="-1" role="dialog" id="TaxaView">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Taxa Tarifária</h4>
+                <button type="button" class="close" data-dismiss="modal" onClick="closeModal()">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div id="lista">
+                    @foreach (var item in Model)
+                    {
+                        <div id="@item.Id" style="display:none;">
+
+                            @{ string codigo = "btn" + item.Id;
+                                string valor = "Valor" + item.Id;
+                            }
+                            <div class=" row form-group col-lg-12">
+                                <div class="col-lg-5">
+                                    <label>Distribuidora:</label>
+                                    <input value="@item.Distribuidora" class="form-control" disabled="" />
+                                    <label></label>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>UF:</label>
+                                    <input value="@item.Uf" class="form-control" disabled="" />
+                                </div>
+                                <div class="col-lg-4">
+                                    <label>Valor</label>
+                                    <input type="text" value="@item.Valor" class="form-control" id="@valor" />
+
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <a href="#" id="@codigo" rel="@item.Id" class="btn btn-primary botao">Salvar</a>
+                                <button type="button" class="btn btn-alert" data-dismiss="modal" onClick="closeModal()">Fechar</button>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/Administrativa/js/lib/jquery/jquery.min.js"></script>
+<script>
+    $(".botao").click(function () {
+        var codigo = $(this).attr("rel");
+        var valor = $("#Valor" + codigo).val();
+        var x = "";
+        $.ajax({
+            type: "POST",
+            url: '/Gerenciamento/EditarTaxas',
+            data: {
+                'Codigo': codigo,
+                'Valor': valor
+            },
+            success: function (data) {
+
+                setTimeout(function () {
+                    swal({
+                        title: "Sucesso",
+                        text: "Usuário alterado",
+                        type: "success",
+                        confirmButtonText: "OK"
+                    },
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                window.location.href = "/Gerenciamento";
+                            }
+                        });
+                }, 500);
+
+                $('#myModalSave').modal('hide');
+
+            },
+            error: function (error) {
+                swal("Erro", "Não foi possivel alterar", "error");
+            }
+        });
+    });
+
+    $(".addTaxa").click(function () {
+        var distribuidora = $("#txtDistribuidora").val();
+        var uf = $("#txtUF").val();
+        var valor = $("#txtValor").val();
+        var x = "";
+        $.ajax({
+            type: "POST",
+            url: '/Gerenciamento/AddTaxa',
+            data: {
+                'distribuidora': distribuidora,
+                'uf': uf,
+                'valor': valor
+            },
+            success: function (data) {
+                if (!distribuidora == '' || !uf == '' || !valor == '') {
+                    setTimeout(function () {
+                        swal({
+                            title: "Sucesso",
+                            text: "Taxa Adicionada",
+                            type: "success",
+                            confirmButtonText: "OK"
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    window.location.href = "/Gerenciamento";
+                                }
+                            });
+                    }, 500);
+
+                    $('#myModalSave').modal('hide');
+                } else {
+                    swal("Erro", "Os campos não foram preenchidos corretamente", "error");
+                }
+            },
+            error: function (error) {
+
+                if (distribuidora == '') {
+                    swal("Erro", "O campo DISTRIBUIDORA Está vazio", "error");
+                } else if (uf == '') {
+                    swal("Erro", "O campo UF Está vazio", "error");
+                } else if (valor == '') {
+                    swal("Erro", "O campo VALOR Está vazio", "error");
+                } else {
+                    swal("Erro", "Já existe DISTRIBUIDORA com esse nome", "error");
+                }
+            }
+        });
+    });
+
+</script>

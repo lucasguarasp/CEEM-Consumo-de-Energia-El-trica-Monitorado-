@@ -1,0 +1,184 @@
+﻿@using ProjetoCEEM.Services
+@model ProjetoCEEM.ViewModels.PreCadastroViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutAdministrativa.cshtml";
+}
+
+
+<body class="fix-header fix-sidebar">
+    <!-- Preloader - style you can find in spinners.css -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- Main wrapper  -->
+    <div id="imgMeio">
+
+        <div class="panel-title text-center">
+            <a class="no-text-decoration" href="@Url.Action("Index","Home")">
+                <img src="@Url.Content("~/images/CEEM/Logo_vFinal_v2.png")" width="250" height="80" alt="" />
+            </a>
+        </div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="row col-12">
+
+
+                <div class="col-md-6 ">
+                    <div class="container">
+                        <h2 class="text-center">Pré-cadastro</h2>
+                        <p>No pré-cadastro você apenas preencherar seus dados para contato.</p>
+                        <p>Será marcado um visita em sua residência.</p>
+                        <p>Um técnico verificará se a rede elétrica é compativel com nosso equipamento</p>
+                        <div class="text-center">
+
+                            <button type="button" class="btn btn-primary btn-flat m-b-30 m-t-30" data-toggle="modal" data-target="#pre-cadastro">
+                                Cadastrar
+                            </button>
+
+                            <!--modal -->
+                            <div class="modal fade" id="pre-cadastro" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                                <div class="modal-dialog  modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="modalLabel">Pré-cadastro</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row col-lg-12">
+                                                <div class="col-lg-6">
+                                                    <label class="col-form-label" for="val-username">Nome Completo <span class="text-danger">*</span></label>
+                                                    @Html.EditorFor(model => model.NomeCompleto, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite seu nome completo" } })
+                                                    @Html.ValidationMessageFor(model => model.NomeCompleto, "", new { @class = "text-danger" })
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <label class="col-form-label" for="val-email">Email <span class="text-danger">*</span></label>
+                                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite um email válido" } })
+                                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="row col-lg-12">
+                                                <div class="col-lg-4">
+                                                    <label class="col-form-label">CEP <span class="text-danger">*</span></label>
+                                                    @Html.EditorFor(model => model.Cep, new { htmlAttributes = new { @class = "form-control cep", onblur = "pesquisacep(this.value)", placeholder = "Digite seu CEP" } })
+                                                    @Html.ValidationMessageFor(model => model.Cep, "", new { @class = "text-danger" })
+                                                </div>
+
+                                                <div class="col-lg-8">
+                                                    <label class="col-form-label">Rua <span class="text-danger">*</span></label>
+                                                    @Html.EditorFor(model => model.Rua, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o nome de sua rua" } })
+                                                    @Html.ValidationMessageFor(model => model.Rua, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="row col-lg-12">
+
+                                                <div class="col-lg-9">
+                                                    <label class="col-form-label">Bairro <span class="text-danger">*</span></label>
+                                                    @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o nome do seu bairro" } })
+                                                    @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
+                                                </div>
+
+                                                <div class="col-lg-3">
+                                                    <label class="col-form-label">Nº <span class="text-danger">*</span></label>
+                                                    @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o número" } })
+                                                    @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="row col-lg-12">
+                                                <div class="col-lg-5">
+                                                    <label class="col-form-label">Complemento <span class="text-danger"></span></label>
+                                                    @Html.EditorFor(model => model.Complemento, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o complemento" } })
+                                                    @Html.ValidationMessageFor(model => model.Complemento, "", new { @class = "text-danger" })
+                                                </div>
+
+                                                <div class="col-lg-4">
+                                                    <label class="col-form-label">Cidade <span class="text-danger">*</span></label>
+                                                    @Html.EditorFor(model => model.Cidade, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o nome de sua cidade" } })
+                                                    @Html.ValidationMessageFor(model => model.Cidade, "", new { @class = "text-danger" })
+                                                </div>
+
+                                                <div class="col-lg-3">
+                                                    <label class="col-form-label">UF <span class="text-danger">*</span></label>
+                                                    @Html.EditorFor(model => model.Uf, new { htmlAttributes = new { @class = "form-control", placeholder = "UF", maxlength = "2" } })
+                                                    @Html.ValidationMessageFor(model => model.Uf, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="row col-lg-12 form-group">
+                                                <div class="col-lg-4">
+                                                    <label class="col-form-label">Telefone <span class="text-danger"></span></label>
+                                                    @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control telefone", placeholder = "Digite seu telefone" } })
+                                                    @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
+                                                </div>
+
+                                                <div class="col-lg-4">
+                                                    <label class="col-form-label">Celular</label>
+                                                    @Html.EditorFor(model => model.Celular, new { htmlAttributes = new { @class = "form-control celular", placeholder = "Digite seu celular" } })
+                                                    @Html.ValidationMessageFor(model => model.Celular, "", new { @class = "text-danger" })
+                                                </div>
+
+                                                <div class="col-lg-4">
+                                                    <label class="col-form-label">Data de Nascimento <span class="text-danger">*</span></label>
+                                                    @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                                                    @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="row col-lg-12 form-group">
+                                                <div class="col-lg-6">
+                                                    <label class="col-form-label">Pergunta de Segurança<span class="text-danger"> *</span></label>
+                                                    @Html.DropDownList("PerguntaSegurancaId", null, new { @class = "form-control" })
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <label class="col-form-label">Resposta<span class="text-danger"> *</span></label>
+                                                    @Html.EditorFor(model => model.Resposta, new { htmlAttributes = new { @class = "form-control", placeholder = "Insira a resposta da pergunta" } })
+                                                    @Html.ValidationMessageFor(model => model.Resposta, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="row col-lg-12 form-group">
+                                                <div class="col-md-2">
+                                                    <button type="submit" class="btn btn-success" style="background-color: #28a745; border-color: #28a745">Enviar</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Enviar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="container">
+
+                        <h2 class="text-center">Cadastro</h2>
+                        <p>No cadastro você você estará ciente de:</p>
+                        <p>Sua rede elétrica é compativel...</p>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">Cadastrar</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        }
+    </div>
+
+</body>

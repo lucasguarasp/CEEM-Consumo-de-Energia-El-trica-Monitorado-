@@ -1,0 +1,182 @@
+﻿@model ProjetoCEEM.ViewModels.RecuperarSenhaViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutAdministrativa.cshtml";
+}
+<style>
+    .login-form label {
+        color: #455a64;
+        text-transform: none;
+    }
+</style>
+<script>
+    function verifica() {
+        const senha = document.getElementById("Senha").value;
+        let forca = 0;
+        const mostra = document.getElementById("forcaSenha");
+        if ((senha.length >= 4) && (senha.length <= 7)) {
+            forca += 10;
+        } else if (senha.length > 7) {
+            forca += 25;
+        }
+        if (senha.match(/[a-z]+/)) {
+            forca += 10;
+        }
+        if (senha.match(/[A-Z]+/)) {
+            forca += 20;
+        }
+        if (senha.match(/d+/)) {
+            forca += 20;
+        }
+        if (senha.match(/\W/)) {
+            forca += 25;
+        }
+        return mostra_res(mostra, forca);
+    }
+    function mostra_res(mostra, forca) {
+        const inputForcaSenha = document.getElementById('InputForcaSenha');
+        console.log(forca);
+        if (forca <= 0) {
+            mostra.innerHTML = '';
+        } else if (forca < 30) {
+            mostra.innerHTML = 'Fraca';
+            mostra.style.color = 'red';
+        } else if ((forca >= 30) && (forca < 60)) {
+            mostra.innerHTML = 'Justa';
+            mostra.style.color = 'yellow';
+        } else if ((forca >= 60) && (forca < 85)) {
+            mostra.innerHTML = 'Forte';
+            mostra.style.color = 'blue';
+        } else {
+            mostra.innerHTML = 'Excelente';
+            mostra.style.color = 'green';
+        }
+        inputForcaSenha.value = forca;
+    }
+    function comparaSenha() {
+        const input1 = document.getElementById('Senha').value || ''
+        console.log(input1)
+        const input2 = document.getElementById('ConfirmarSenha').value || ''
+        console.log(input1 === input2)
+        if (input1 === input2) {
+            document.getElementById('senhaComparada').innerHTML = '';
+        } else {
+            document.getElementById('senhaComparada').innerHTML = 'As senhas não correspondem';
+        }
+    }
+    verifica();
+    comparaSenha();
+</script>
+
+
+<body class="fix-header fix-sidebar">
+    <!-- Preloader - style you can find in spinners.css -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- Main wrapper  -->
+    <div id="imgBackGround">
+
+        <div class="unix-login">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+
+                    <div class="col-lg-4">
+
+                        <div class="login-content card">
+                            <div class="panel-title text-center">
+                                <a class="no-text-decoration" href="@Url.Action("Index","Home")">
+                                    <img src="@Url.Content("~/images/CEEM/Logo_vFinal_v2.png")" width="250" height="80" alt="" />
+                                </a>
+                            </div>
+                            <div class="login-form">
+                                @using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-group">
+                                        <label>@Model.Pergunta</label>
+                                        @Html.EditorFor(model => model.Resposta, new { htmlAttributes = new { @class = "form-control", placeholder = @Model.Pergunta } })
+                                        @Html.ValidationMessageFor(model => model.Resposta, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nova Senha<span class="text-danger"> * </span><span id="forcaSenha"></span></label>
+                                        <input hidden id="InputForcaSenha" name="InputForcaSenha" value=0 />
+                                        @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite sua nova senha", oninput = "verifica()", onfocusout = "comparaSenha()" } })
+                                        @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+                                        <span id="senhaComparada" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Confirmar Senha<span class="text-danger"> *</span></label>
+                                        @Html.EditorFor(model => model.ConfirmarSenha, new { htmlAttributes = new { @class = "form-control", placeholder = "Repita sua nova senha", onfocusout = "comparaSenha()" } })
+                                        @Html.ValidationMessageFor(model => model.ConfirmarSenha, "", new { @class = "text-danger" })
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">Salvar</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function verifica() {
+            const senha = document.getElementById("Senha").value;
+            let forca = 0;
+            const mostra = document.getElementById("forcaSenha");
+            if ((senha.length >= 4) && (senha.length <= 7)) {
+                forca += 10;
+            } else if (senha.length > 7) {
+                forca += 25;
+            }
+            if (senha.match(/[a-z]+/)) {
+                forca += 10;
+            }
+            if (senha.match(/[A-Z]+/)) {
+                forca += 20;
+            }
+            if (senha.match(/d+/)) {
+                forca += 20;
+            }
+            if (senha.match(/\W/)) {
+                forca += 25;
+            }
+            return mostra_res(mostra, forca);
+        }
+        function mostra_res(mostra, forca) {
+            const inputForcaSenha = document.getElementById('InputForcaSenha');
+            console.log(forca);
+            if (forca <= 0) {
+                mostra.innerHTML = '';
+            } else if (forca < 30) {
+                mostra.innerHTML = 'Fraca';
+                mostra.style.color = 'red';
+            } else if ((forca >= 30) && (forca < 60)) {
+                mostra.innerHTML = 'Justa';
+                mostra.style.color = 'yellow';
+            } else if ((forca >= 60) && (forca < 85)) {
+                mostra.innerHTML = 'Forte';
+                mostra.style.color = 'blue';
+            } else {
+                mostra.innerHTML = 'Excelente';
+                mostra.style.color = 'green';
+            }
+            inputForcaSenha.value = forca;
+        }
+        function comparaSenha() {
+            const input1 = document.getElementById('Senha').value || ''
+            console.log(input1)
+            const input2 = document.getElementById('ConfirmarSenha').value || ''
+            console.log(input1 === input2)
+            if (input1 === input2) {
+                document.getElementById('senhaComparada').innerHTML = '';
+            } else {
+                document.getElementById('senhaComparada').innerHTML = 'As senhas não correspondem';
+            }
+        }
+        verifica();
+        comparaSenha();
+    </script>
+</body>

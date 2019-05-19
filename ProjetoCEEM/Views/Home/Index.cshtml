@@ -1,0 +1,199 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Header -->
+<header id="header" class="alt">
+    <h1><a>CEEM</a></h1>
+
+    @{
+        if (User.Identity.IsAuthenticated)
+        {
+            <a href="@Url.Action("Index", "Administrativa")"><i class="fa fa-user"></i> @User.Identity.Name</a>
+            <a href="@Url.Action("Sair","Usuario")"><i class="fa fa-power-off"></i> Sair</a>
+
+        }
+        else
+        {
+            <a href="@Url.Action("Login", "Usuario")" class="icon fa-sign-in"> Entrar</a>
+        }
+
+        if (TempData["message"] != null)
+        {
+            <script type="text/javascript">
+
+            var texto = @Html.Raw(Json.Encode(TempData["message"]));
+            setTimeout(function Mensagem() {
+                swal({
+                    title: "Sucesso",
+                    text: texto,
+                    type: "success",
+                    confirmButtonText: "OK"
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                           // window.location.href = "../../";
+                        }
+                    });
+                }, 500);
+
+            </script>
+        }
+
+    }
+
+</header>
+
+<!-- Banner -->
+<section id="banner">
+    <i>
+        <img src="@Url.Content("~/Content/Home/images/CEEM/LogoMedio.png")" height="134" width="170" alt="" />
+    </i>
+    <h2>Consumo de energia elétrica monitorado <monitorado></monitorado></h2>
+    <p>
+        “Quando a última árvore for derrubada, quando o último rio for envenenado, quando o último peixe for
+        pescado, só então nos daremos conta de que dinheiro não se come”. – Provérbio Indígena
+    </p>
+    <ul class="actions">
+        <li><a href="@Url.Action("Index","Cadastros")" class="button big special">Faça o seu cadastro</a></li>
+    </ul>
+</section>
+
+<!-- One -->
+<section id="one" class="wrapper style1">
+    <div class="inner">
+        <article class="feature left">
+            <span class="image">
+                <img src="@Url.Content("~/Content/Home/images/CEEM/sistemaCEEMpequeno.png")" height="319" width="567" alt="" />
+            </span>
+            <div class="content">
+                <h2>Sobre o sistema</h2>
+                <p>
+                    Devido aos impactos ambientais e seu alto custo, o mundo vem se preocupando com o consumo
+                    de energia elétrica e como diminuí-lo. Para ajudar no controle do consumo foi criado o
+                    sistema de Consumo de Energia Elétrica Monitorado (CEEM). É um sistema web que monitora
+                    o consumo de energia elétrica e prevê o quanto será gasto, além de mostrar períodos e pontos
+                    com maior consumo e a média de gasto em determinado período. O usuário pode monitorar o consumo e criar relatórios com filtros
+                    específicos (como data e hora, bandeiras tarifárias sobre determinado período, etc). Todos que
+                    possuem uma rede elétrica monofasica podem adquirir o sistema.
+                </p>
+                <ul class="actions"></ul>
+            </div>
+        </article>
+        <article class="feature right">
+            <span class="image">
+                <img src="@Url.Content("~/Content/Home/images/CEEM/hardware.png")" alt="" />
+            </span>
+            <div class="content">
+                <h2>Hardware utilizado</h2>
+                <p>
+                    O equipamento do sistema é instalado em uma parte da rede de energia elétrica do
+                    contratante e fará a leitura sobre aquela área que ele se encontra ou do total da
+                    área que engloba a rede. Os dados são salvos em um cartão de memória micro SD e posteriormente
+                    enviados a um servidor com banco de dados, onde os dados são tratados e mostrados da melhor
+                    forma possível para o usuário de acordo com sua vontade.
+                </p>
+                <ul class="actions"></ul>
+            </div>
+        </article>
+    </div>
+</section>
+
+<!-- Two -->
+<section id="two" class="wrapper special">
+    <div class="inner">
+        <header class="major">
+            <h2>Quem somos</h2>
+            <p>
+                Alunos da FATEC de Guaratinguetá (SP) do curso de Análise e Desenvolvimento de Sistemas (ADS).
+                Após receberem a proposta de fazer um Projeto Interdisciplinar, o qual viria a ser o
+                Trabalho de Conclusão de Curso (TCC), analisaram ideias, projetos similares, situação social
+                e econômica do país, possíveis gastos e conhecimento necessários para um novo projeto.
+            </p>
+        </header>
+        <div class="image-grid">
+            <a href="https://www.linkedin.com/in/jeancamargoreal/" class="image"><img src="@Url.Content("~/Content/Home/images/CEEM/jean.jpg")" alt="" /></a>
+            <a href="https://www.linkedin.com/in/rodrigo-gurgel-9122b5140/" class="image"><img src="@Url.Content("~/Content/Home/images/CEEM/rodrigo.jpg")" alt="" /></a>
+            <a href="https://www.linkedin.com/in/lucas-paixao-272797150/" class="image"><img src="@Url.Content("~/Content/Home/images/CEEM/Lucas.jpg")" alt="" /></a>
+            <a href="https://www.linkedin.com/in/gabriel-oliveira-0797a114b/" class="image"><img src="@Url.Content("~/Content/Home/images/CEEM/gabriel.jpg")" alt="" /></a>
+        </div>
+    </div>
+</section>
+
+<!-- ==== UMA PARTE QUE PODE SER UTILIADA MAIS PRA FRENTE ==== -->
+<!-- Three -->
+<!--<section id="three" class="wrapper style3 special">-->
+<!--<div class="inner">-->
+<!--<header class="major narrow	">-->
+<!--<h2>Magna sed consequat tempus</h2>-->
+<!--<p>Ipsum dolor tempus commodo turpis adipiscing Tempor placerat sed amet accumsan</p>-->
+<!--</header>-->
+<!--<ul class="actions">-->
+<!--<li><a href="#" class="button big alt">Magna feugiat</a></li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--</section>-->
+<!-- Four -->
+<section id="four" class="wrapper style2 special">
+    <div class="inner">
+        <header class="major narrow">
+            <h2>Entre em contato</h2>
+        </header>
+        <form action="@Url.Action("EntreEmContato")" method="POST">
+            <div class="container 75%">
+                <div class="row uniform 50%">
+                    <div class="6u 12u$(xsmall)">
+                        <input name="Nome" placeholder="Nome" type="text" id="Nome" />
+                    </div>
+                    <div class="6u$ 12u$(xsmall)">
+                        <input name="Email" placeholder="Email" type="email" required />
+                    </div>
+                    <div class="12u$">
+                        <textarea name="Mensagem" placeholder="Mensagem" rows="4" required></textarea>
+                    </div>
+                </div>
+            </div>
+            <ul class="actions">
+                <li><input type="submit" class="special" value="Enviar" onclick="return validateData();" /></li>
+                <li><input type="reset" class="alt" value="Limpar" /></li>
+            </ul>
+        </form>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer id="footer">
+    <div class="inner">
+        <ul class="icons">
+            <li>
+                <a href="#" class="icon fa-facebook">
+                    <span class="label">Facebook</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="icon fa-twitter">
+                    <span class="label">Twitter</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="icon fa-instagram">
+                    <span class="label">Instagram</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="icon fa-linkedin">
+                    <span class="label">LinkedIn</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="copyright">
+            <li>&copy; 2018, CEEM - Consumo de energia elétrica monitorado.</li>
+
+        </ul>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="@Url.Content("~/Content/Home/assets/js/jquery.min.js")"></script>
+<script src="@Url.Content("~/Content/Home/assets/js/skel.min.js")"></script>
+<script src="@Url.Content("~/Content/Home/assets/js/util.js")"></script>
+<script src="@Url.Content("~/Content/Home/assets/js/main.js")"></script>

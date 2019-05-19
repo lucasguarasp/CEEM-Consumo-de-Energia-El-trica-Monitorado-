@@ -1,0 +1,66 @@
+﻿@model IEnumerable<ProjetoCEEM.Models.OrdemServico>
+@{
+    ViewBag.Title = "MinhaOS";
+    Layout = "~/Views/Shared/_LayoutAdministrativaFull.cshtml";
+}
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-primary">Ordem de Serviços</h3>
+    </div>
+
+</div>
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <div id="example23_wrapper" class="dataTables_wrapper">
+
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered dataTable" cellspacing="0" width="100" role="grid" aria-describedby="example23_info" style="width: 100%;font-size:12px">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting" style="width: 70.4px;">Nome Completo</th>
+                                <th style="width: 67.4px;">Número OS</th>
+                                <th class="sorting" style="width: 76.4px;">Data Criação</th>
+                                <th class="sorting" style="width: 78.4px;">Data Alteração</th>
+                                <th class="sorting" style="width: 78.4px;">Atendente</th>
+                                <th style="width: 67.4px;">Status Ordem Serviço</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Cadastro.NomeCompleto)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NumeroOS)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DataCriacao)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DataAlteracao)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Tecnico.Cadastro.NomeCompleto)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StatusOrdemServico.Descricao)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

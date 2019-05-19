@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Chamado";
+    Layout = "~/Views/Shared/_LayoutAdministrativaFull.cshtml";
+}
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-primary">Chamado</h3>
+    </div>
+</div>
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="card-content">
+                <div class="mt-4">
+                    <form action="@Url.Action("Chamado")" method="POST">
+                        <div class="form-group">
+                            <label>Assunto: </label>
+                            <input type="text" class="form-control" placeholder="Digite o assunto" name="assunto" id="assunto" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mensagem: </label>
+                            <textarea class="form-control" style="height:200px" placeholder="Digite sua mensagem" name="mensagem" id="mensagem" onkeyup="limite_textarea(this.value)" required></textarea>
+                            <div class="text-right">
+                                <span id="cont">500</span> Restantes <br>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group m-b-0">
+                            <div class="text-right">
+                                <button class="btn btn-purple waves-effect waves-light">
+                                    <span>Enviar</span>
+                                    <i class="fa fa-send m-l-10"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <!-- end card-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function limite_textarea(valor) {
+        quant = 500;
+        total = valor.length;
+        if (total <= quant) {
+            resto = quant - total;
+            document.getElementById('cont').innerHTML = resto;
+        } else {
+            document.getElementById('mensagem').value = valor.substr(0, quant);
+        }
+    }
+
+</script>
+
+@{
+    if (TempData["message"] != null)
+    {
+        <script type="text/javascript">
+
+            var titulo = @Html.Raw(Json.Encode(TempData["titulo"]));
+            var texto = @Html.Raw(Json.Encode(TempData["message"]));
+            var tipo = @Html.Raw(Json.Encode(TempData["tipo"]));
+
+            setTimeout(function Mensagem() {
+                swal({
+                    title: titulo,
+                    text: texto,
+                    type: tipo,
+                    confirmButtonText: "OK"
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            //window.location.href = "PreCadastros";
+                        }
+                    });
+            }, 500);
+        </script>
+    }
+}

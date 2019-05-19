@@ -1,0 +1,287 @@
+﻿@using ProjetoCEEM.Models
+@{
+    /**
+     * Gambiarra pra ter certeza que não vai tar null By Rodrigo Gurgel
+     */
+    var usuario = new Usuario();
+    using (var db = new Context())
+    {
+        usuario = db.Usuarios.Single(u => u.Login.Equals(User.Identity.Name));
+        ViewBag.ImagemPerfil = @"~/Content/ImagemPerfil/" + usuario.NomeImagem;
+
+        if (string.IsNullOrWhiteSpace(usuario.NomeImagem))
+        {
+            ViewBag.ImagemPerfil = @"~/Content/ImagemPerfil/profile.png";
+        }
+
+    }
+}
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="@Url.Content("~/images/CEEM/LogoSemFundo16x16.png")">
+    <title>CEEM - Consumo de Energia Elétrica Monitorado</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Content/Administrativa/css/glyphicons.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/Administrativa/css/lib/bootstrap/bootstrap.min.css")" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="@Url.Content("~/Content/Administrativa/css/helper.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/Administrativa/css/style.css")" rel="stylesheet">
+
+    <!--Highcharts-->
+    <script src="@Url.Content("~/Scripts/Highcharts-6.1.0/code/highcharts-3d.js")"></script>
+    <script src="@Url.Content("~/Scripts/Highcharts-6.1.0/code/highcharts-custom.src.js")"></script>
+    <script src="@Url.Content("~/Scripts/Highcharts-6.1.0/code/highcharts-more.js")"></script>
+    <script src="@Url.Content("~/Scripts/Highcharts-6.1.0/code/highcharts.js")"></script>
+    <script src="@Url.Content("~/Scripts/Highcharts-6.1.0/code/modules/accessibility.js")"></script>
+    <script src="@Url.Content("~/Scripts/Highcharts-6.1.0/code/modules/annotations.js")"></script>
+    <script src="@Url.Content("~/Scripts/Highcharts-6.1.0/code/modules/data.js")"></script>
+    <script src="@Url.Content("~/Scripts/Highcharts-6.1.0/code/modules/drilldown.js")"></script>
+    <script src="@Url.Content("~/Scripts/Highcharts-6.1.0/code/modules/export-data.js")"></script>
+    <script src="@Url.Content("~/Scripts/Highcharts-6.1.0/code/modules/exporting.js")"></script>
+    <script src="@Url.Content("~/Scripts/Highcharts-6.1.0/code/modules/offline-exporting.js")"></script>
+    <script src="@Url.Content("~/Scripts/Highcharts-6.1.0/code/modules/series-label.js")"></script>
+
+
+</head>
+
+<body class="fix-header fix-sidebar">
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- Main wrapper  -->
+    <div id="main-wrapper">
+        <!-- header header  -->
+        <div class="header">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <!-- Logo -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="@Url.Action("Index", "Administrativa")">
+                        <!-- Logo icon -->
+                        <b><img src="@Url.Content("~/images/CEEM/LogoSemFundo36x36.png")" alt="homepage" class="dark-logo" /></b>
+                        <!--End Logo icon -->
+                    </a>
+                </div>
+                <!-- End Logo -->
+                <div class="navbar-collapse">
+                    <!-- toggle and nav items -->
+                    <ul class="navbar-nav mr-auto mt-md-0">
+                        <!-- This is  -->
+                        <li class="nav-item">
+                            <a class="nav-link nav-toggler hidden-md-up text-muted"
+                               href="javascript:void(0)"><i class="mdi mdi-menu"></i></a>
+                        </li>
+                        <li class="nav-item m-l-10">
+                            <a class="nav-link sidebartoggler hidden-sm-down text-muted"
+                               href="javascript:void(0)"><i class="ti-menu"></i></a>
+                        </li>
+
+                    </ul>
+                    <!-- User profile and search -->
+                    <ul class="navbar-nav my-lg-0">
+
+
+                        <!-- Profile -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                <img src="@Url.Content(ViewBag.ImagemPerfil)" alt="user" class="profile-pic" style="max-height:30px !important">
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right animated zoomIn">
+                                <ul class="dropdown-user">
+                                    <li><a href="@Url.Action("InformacaoPessoal", "Conta")"><i class="ti-user"></i> Perfil</a></li>
+
+                                    <li><a href="@Url.Action("Sair", "Usuario")"><i class="fa fa-power-off"></i> Sair</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- End header header -->
+        <!-- Left Sidebar  -->
+        <div class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li class="nav-devider"></li>
+                        <li><a href="@Url.Action("Index", "Administrativa")" aria-expanded="false"><i class="fa fa-home"></i><span class="hide-menu">Home</span></a>
+                        <li>
+                            <a class="has-arrow" href="#" aria-expanded="false">
+                                <i class="fa fa-tachometer"></i><span class="hide-menu">Dashboard</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                @using (var db = new Context())
+                                {
+                                    var equipamentos = db.Equipamentos.Where(e => e.UsuarioId == usuario.UsuarioId).ToList();
+                                    foreach (var item in equipamentos)
+                                    {
+                                        <li><a href="#">@item.Local</a></li>
+                                    }
+
+                                }
+
+                                @*<li><a href="#">Equipamento 1 </a></li>
+                <li><a href="#">Equipamento 2 </a></li>
+                <li>
+                    <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-level-down"></i><span class="hide-menu"> Equipamento 3</span></a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a href="#">Sala</a></li>
+                        <li><a href="#">Cozinha</a></li>
+                        <li><a href="#">Quarto</a></li>
+                    </ul>
+                </li>*@
+                            </ul>
+
+                        </li>
+
+                        @{
+                            if (User.IsInRole("Administrador") || User.IsInRole("Desenvolvedor"))
+                            {
+                                <li>
+                                    <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu">Usuários</span></a>
+                                    <ul aria-expanded="false" class="collapse">
+                                        <li><a href="@Url.Action("PreCadastros", "Usuarios")">Pré-cadastros</a></li>
+                                        <li><a href="@Url.Action("UsuariosRegistrados", "Usuarios")">Usuários Registrados</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="@Url.Action("Index", "OrdemServicos")" aria-expanded="false"><i class="fa fa-life-ring "></i><span class="hide-menu">Ordem Serviços</span></a></li>
+                                <li><a href="@Url.Action("Index", "Agendas")" aria-expanded="false"><i class="fa fa-calendar"></i><span class="hide-menu">Visita</span></a></li>
+                                <li><a href="@Url.Action("Index", "Gerenciamento")" aria-expanded="false"><i class="fa fa-gear"></i><span class="hide-menu">Gerenciamento</span></a></li>
+
+                            }
+
+                        }
+
+                        @{
+                            if (User.IsInRole("Comum") || User.IsInRole("Desenvolvedor"))
+                            {
+                                <li>
+                                    <a href="@Url.Action("MinhasOS", "OrdemServicos")" aria-expanded="false"><i class="fa fa-life-ring "></i><span class="hide-menu">Meus chamados</span></a>
+                                </li>}
+                        }
+
+
+                        <li>
+                            <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-user"></i><span class="hide-menu">Conta</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="@Url.Action("InformacaoPessoal", "Conta")">Informações pessoais</a></li>
+                                <li><a href="@Url.Action("Endereco", "Conta")">Endereço</a></li>
+                                <li><a href="@Url.Action("Contatos", "Conta")">Contatos</a></li>
+                                <li>
+                                    <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-level-down"></i><span class="hide-menu">Privacidade</span></a>
+                                    <ul aria-expanded="false" class="collapse">
+                                        <li><a href="@Url.Action("AlterarSenha", "Privacidade")">Alterar Senha</a></li>
+                                        <li><a href="@Url.Action("PerguntaSeguranca", "Privacidade")">Pergunta de Segurança</a></li>
+                                        <li><a href="@Url.Action("EmailRecuperarSenha", "Privacidade")">Email recuperar senha</a></li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        @if (User.IsInRole("Comum") || User.IsInRole("Desenvolvedor"))
+                        {
+
+                            <li>
+                                <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-credit-card"></i><span class="hide-menu">Pagamento</span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="@Url.Action("Index", "Paypal")"><i class="fa fa-paypal"></i> Efetuar Pagamento</a></li>
+                                    <li><a href="@Url.Action("HistoricoPagamento", "Paypal")">Historico</a></li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-level-down"></i><span class="hide-menu">Suporte</span></a>
+                                <ul aria-expanded="false" class="collapse">
+
+                                    <li><a href="@Url.Action("Chat", "Suporte")">FAQ Bot</a></li>
+                                    <li><a href="@Url.Action("Chamado", "Suporte")">Chamado</a></li>
+                                </ul>
+                            </li>
+                        }
+
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </div>
+        <!-- End Left Sidebar  -->
+        <!-- Page wrapper  -->
+        <div class="page-wrapper">
+
+            @RenderBody()
+            <footer class="footer text-center fixed-bottom">
+                © @DateTime.Now.Year Todos direitos reservados. Consumo de Energia Elétrica Monitorado <a href="@Url.Action("Index","Home")">CEEM</a>
+            </footer>
+            <!-- End footer -->
+        </div>
+        <!-- End Page wrapper  -->
+    </div>
+    <!-- End Wrapper -->
+    <!-- All Jquery -->
+
+    <script src="@Url.Content("~/Scripts/Administrativa/js/lib/jquery/jquery.min.js")"></script>
+
+    <script src="~/Scripts/Administrativa/js/modernizr-2.6.2.js"></script>
+    <!-- Agenda -->
+    <script src="@Url.Content("~/Scripts/Administrativa/js/modernizr-2.6.2.js")"></script>
+
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="@Url.Content("~/Scripts/Administrativa/js/lib/bootstrap/js/popper.min.js")"></script>
+    @*bootstrap3.3.7.min.js para funcionar modal*@
+    <script src="@Url.Content("~/Scripts/Administrativa/js/lib/bootstrap/js/bootstrap3.3.7.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/Administrativa/js/lib/bootstrap/js/bootstrap.min.js")"></script>
+    @Scripts.Render("~/bundles/inputmask")
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="@Url.Content("~/Scripts/Administrativa/js/jquery.slimscroll.js")"></script>
+
+    <!--Menu sidebar -->
+    <script src="@Url.Content("~/Scripts/Administrativa/js/sidebarmenu.js")"></script>
+
+    <!--stickey kit -->
+    <script src="@Url.Content("~/Scripts/Administrativa/js/lib/sticky-kit-master/dist/sticky-kit.min.js")"></script>
+
+    <!--Custom JavaScript -->
+    <script src="@Url.Content("~/Scripts/CepAPI.js")"></script>
+
+    <!--fontawesome Tabelas -->
+    <script src="@Url.Content("~/Scripts/Administrativa/js/lib/datatables/datatables.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/Administrativa/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/Administrativa/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/Administrativa/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/Administrativa/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/Administrativa/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js")"></script>
+    <script src="@Url.Content("~/Scripts/Administrativa/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/Administrativa/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/Administrativa/js/lib/datatables/datatables-init.js")"></script>
+
+
+    <script src="~/Scripts/Administrativa/js/lib/sweetalert/sweetalert-dev.js"></script>
+    <link href="~/Content/Administrativa/css/lib/sweetalert/sweetalertV1.1.3.css" rel="stylesheet" />
+
+    <!--Custom JavaScript -->
+    <script src="@Url.Content("~/Scripts/Administrativa/js/custom.min.js")"></script>
+
+    @RenderSection("scripts", required: false)
+
+
+
+</body>
+
+</html>

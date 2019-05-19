@@ -1,0 +1,74 @@
+﻿@using ProjetoCEEM.Services
+@model ProjetoCEEM.ViewModels.UsuarioLoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutAdministrativa.cshtml";
+}
+
+
+<body class="fix-header fix-sidebar">
+    <!-- Preloader - style you can find in spinners.css -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- Main wrapper  -->
+    <div id="main-wrapper">
+
+        <div class="unix-login">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+
+                    <div class="col-lg-4">
+
+                        <div class="login-content card">
+                            <div class="panel-title text-center">
+                                <a class="no-text-decoration" href="@Url.Action("Index","Home")">
+                                    <img src="@Url.Content("~/images/CEEM/Logo_vFinal_v2.png")" width="250" height="80" alt="" />
+                                </a>
+                            </div>
+                            <div class="login-form">
+                                @using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+                                <div class="form-group">
+                                    <label>Nome de Usuário</label>
+                                    @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control", placeholder = "Insira seu nome de usuário" } })
+                                    @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label>Senha</label>
+                                    @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite sua senha" } })
+                                    @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+                                </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"> Lembrar senha
+                                        </label>
+                                        <label class="pull-right">
+                                            <a href="@Url.Action("EsqueciSenha","Administrativa")">Esqueceu sua senha?</a>
+                                        </label>
+
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">Entrar</button>
+                                    <div class="register-link m-t-15 text-center">
+                                        <p>Não tem conta? <a href="#"> Cadastra-se</a></p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+
+
+
+
+

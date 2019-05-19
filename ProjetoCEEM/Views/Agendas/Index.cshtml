@@ -1,0 +1,136 @@
+﻿@model ProjetoCEEM.Models.Agenda
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdministrativaFull.cshtml";
+}
+
+
+<div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h3 class="text-primary">Agenda</h3>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+
+            @*Carrega Calendario*@
+            <div id="calender" style="font-size: 14px;"></div>
+
+            @*Modal editar evento*@
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title"><span id="eventTitle"></span></h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <button id="btnDelete" class="btn btn-default btn-sm pull-right">
+                                <span class="glyphicon glyphicon-remove"></span> Remover
+                            </button>
+                            <button id="btnEdit" class="btn btn-default btn-sm pull-right" style="margin-right:5px;">
+                                <span class="glyphicon glyphicon-pencil"></span> Editar
+                            </button>
+                            <p id="pDetails"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*Modal criar evento*@
+            <div id="myModalSave" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title ">Agendamento</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="col-md-12 form-horizontal">
+                                @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" id="hdAgendaId" value="0" />
+
+                            <div class="form-group">
+                                <label>Tipo</label>
+                                @Html.EnumDropDownListFor(model => model.TipoAgendamento, "-- Selecione tipo de agendamento --", htmlAttributes: new { @id = "tipo", @class = "form-control"})
+
+                            </div>
+
+                            <div class="form-group">
+                                <label>Cliente</label>
+                                @*@Html.DropDownList("Cadastros", (IEnumerable<SelectListItem>)ViewData["DBCadastros"], "-- Selecione o cliente --", new { @id = "txtCliente", @class = "form-control" })*@
+
+                                <select id="txtCliente" class="form-control"> </select>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label>Data / Hora</label>
+                                <div class="input-group date input-group-rounded" id="dtp1">
+                                    <input type="text" id="txtStart" class="form-control" />
+                                    <div class="input-group-addon btn btn-primary btn-group-right">
+                                        <i class="ti-calendar"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Descrição</label>
+                                <textarea id="txtDescription" rows="3" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Cor do tema</label>
+                                <select id="ddThemeColor" class="form-control">
+                                    <option value="">Padrão</option>
+                                    <option value="red">Vermelho</option>
+                                    <option value="blue">Azul</option>
+                                    <option value="black">Preto</option>
+                                    <option value="green">Verde</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="btnSave" class="btn btn-success">Salvar</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                            </div>
+                }
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <link href="~/Content/Administrativa/css/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+
+            <link href="~/Content/Administrativa/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" rel="stylesheet" />
+            <link href="~/Content/Administrativa/ajax/libs/fullcalendar/3.9.0/fullcalendar.print.css" rel="stylesheet" media="print" />
+            <link href="~/Content/Administrativa/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+            @section Scripts{
+                <script src="~/Content/Administrativa/ajax/moment.js/2.18.1/moment.min.js"></script>
+                <script src="~/Content/Administrativa/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+                <script src="~/Content/Administrativa/ajax/libs/fullcalendar/3.9.0/pt-br.js"></script>
+                <script src="~/Content/Administrativa/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+                <script src="~/Scripts/Administrativa/js/bootstrap-select/bootstrap-select.min.js"></script>
+
+
+                @*Carrega Script get e post do calendario*@
+                <script src="~/Scripts/Calendario.js"></script>
+                <script src="~/Scripts/CarregarDropDownCadastro.js"></script>
+            }
+
+        </div>
+    </div>
+</div>

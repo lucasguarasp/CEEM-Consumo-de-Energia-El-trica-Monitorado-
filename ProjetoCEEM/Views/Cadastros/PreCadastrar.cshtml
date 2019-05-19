@@ -1,0 +1,167 @@
+﻿@using ProjetoCEEM.Services
+@model ProjetoCEEM.ViewModels.PreCadastroViewModel
+@{
+    ViewBag.Title = "PreCadastro";
+    Layout = "~/Views/Shared/_LayoutAdministrativa.cshtml";
+}
+<div class="preloader">
+    <svg class="circular" viewBox="25 25 50 50">
+        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+    </svg>
+</div>
+<!-- Main wrapper  -->
+<div id="main-wrapper">
+    <!-- Page de cadastro  -->
+    <!-- Container de Cadastro  -->
+
+    <div class="container-fluid">
+        <br /><br />
+        <div class="panel-title text-center">
+            <a class="no-text-decoration" href="@Url.Action("Index","Home")">
+                <img src="@Url.Content("~/images/CEEM/Logo_vFinal_v2.png")" width="250" height="80" alt="" />
+            </a>
+        </div>
+
+
+        <!-- Inicio da página de cadastro -->
+        <div id="imgBackGround">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="row col-lg-12">
+                                    <div class="col-lg-6">
+                                        <label class="col-form-label" for="val-username">Nome Completo <span class="text-danger">*</span></label>
+                                        @Html.EditorFor(model => model.NomeCompleto, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite seu nome completo" } })
+                                        @Html.ValidationMessageFor(model => model.NomeCompleto, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <label class="col-form-label" for="val-email">Email <span class="text-danger">*</span></label>
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite um email válido" } })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row col-lg-12">
+                                    <div class="col-lg-4">
+                                        <label class="col-form-label">CEP <span class="text-danger">*</span></label>
+                                        @Html.EditorFor(model => model.Cep, new { htmlAttributes = new { @class = "form-control cep", onblur = "pesquisacep(this.value)", placeholder = "Digite seu CEP" } })
+                                        @Html.ValidationMessageFor(model => model.Cep, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-lg-8">
+                                        <label class="col-form-label">Rua <span class="text-danger">*</span></label>
+                                        @Html.EditorFor(model => model.Rua, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o nome de sua rua" } })
+                                        @Html.ValidationMessageFor(model => model.Rua, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row col-lg-12">
+
+                                    <div class="col-lg-9">
+                                        <label class="col-form-label">Bairro <span class="text-danger">*</span></label>
+                                        @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o nome do seu bairro" } })
+                                        @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <label class="col-form-label">Nº <span class="text-danger">*</span></label>
+                                        @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o número" } })
+                                        @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row col-lg-12">
+                                    <div class="col-lg-5">
+                                        <label class="col-form-label">Complemento <span class="text-danger"></span></label>
+                                        @Html.EditorFor(model => model.Complemento, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o complemento" } })
+                                        @Html.ValidationMessageFor(model => model.Complemento, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <label class="col-form-label">Cidade <span class="text-danger">*</span></label>
+                                        @Html.EditorFor(model => model.Cidade, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite o nome de sua cidade", @readonly = "true" } })
+                                        @Html.ValidationMessageFor(model => model.Cidade, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <label class="col-form-label">UF <span class="text-danger">*</span></label>
+                                        @Html.EditorFor(model => model.Uf, new { htmlAttributes = new { @class = "form-control", placeholder = "UF", maxlength = "2", @readonly = "true" } })
+                                        @Html.ValidationMessageFor(model => model.Uf, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row col-lg-12">
+                                    <div class="col-lg-4">
+                                        <label class="col-form-label">Telefone <span class="text-danger"></span></label>
+                                        @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control telefone", placeholder = "Digite seu telefone" } })
+                                        @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <label class="col-form-label">Celular</label>
+                                        @Html.EditorFor(model => model.Celular, new { htmlAttributes = new { @class = "form-control celular", placeholder = "Digite seu celular" } })
+                                        @Html.ValidationMessageFor(model => model.Celular, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <label class="col-form-label">Data de Nascimento <span class="text-danger">*</span></label>
+                                        @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                                        @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row col-lg-12 form-group">
+                                    <div class="col-lg-6">
+                                        <label class="col-form-label">Pergunta de Segurança<span class="text-danger"> *</span></label>
+                                        @Html.DropDownList("PerguntaSegurancaId", null, new { @class = "form-control" })
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <label class="col-form-label">Resposta<span class="text-danger"> *</span></label>
+                                        @Html.EditorFor(model => model.Resposta, new { htmlAttributes = new { @class = "form-control", placeholder = "Insira a resposta da pergunta" } })
+                                        @Html.ValidationMessageFor(model => model.Resposta, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row col-lg-12 form-group">
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn btn-success">Enviar</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!--Fim da página de cadastro -->
+</div>
+
+@{
+    if (TempData["message"] != null)
+    {
+        <script type="text/javascript">
+
+            var texto = @Html.Raw(Json.Encode(TempData["message"]));
+            setTimeout(function Mensagem() {
+                swal({
+                    title: "Sucesso",
+                    text: texto,
+                    type: "success",
+                    confirmButtonText: "OK"
+                },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            window.location.href = "../../";
+                        }
+                    });
+            }, 500);
+        </script>
+    }
+}

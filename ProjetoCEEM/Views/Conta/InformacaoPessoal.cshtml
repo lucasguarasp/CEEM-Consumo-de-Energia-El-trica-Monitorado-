@@ -1,0 +1,88 @@
+﻿@model ProjetoCEEM.ViewModels.InformacaoPessoalViewModel
+@{
+    ViewBag.Title = "InformacaoPessoal";
+    Layout = "~/Views/Shared/_LayoutAdministrativaFull.cshtml";
+}
+
+@*script para display da foto do perfil*@
+<script>
+    function Mudarestado(el) {
+        var display = document.getElementById(el).style.display;
+        if (display == "none")
+            document.getElementById(el).style.display = 'block';
+        else
+            document.getElementById(el).style.display = 'none';
+    }
+</script>
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="card-two">
+                <header>
+                    <div class="avatar" onclick="Mudarestado('CarregaFoto')">
+                        <i class="fa fa-plus">
+                            <img src="@Url.Content(ViewBag.ImagemPerfil)" alt="">
+                        </i>
+                    </div>
+                </header>
+                <h3>
+                    @Html.DisplayFor(model => model.NomeCompleto)
+
+                </h3>
+                <div class="desc">
+                    @ViewBag.Perfil
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    <div id="CarregaFoto" class="modal-header card" style="display: none;">
+        <div class="col-lg-12">
+            <span onclick="document.getElementById('CarregaFoto').style.display='none'"
+                  class="pull-right display-10">&times;</span>
+            <h4>Atualizar foto perfil</h4>
+        </div>
+        <div class="container">
+            @using (Html.BeginForm("Upload", "Conta", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <input id="file" name="file" type="file" />
+                <button type="submit" class="btn btn-primary btn-flat pull-right">Atualizar Foto</button>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    @using (Html.BeginForm("InformacaoPessoal", "Conta", FormMethod.Post, new { enctype = "/multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-body">
+
+                <div class="form-group">
+                    <label class="col-md-12">Nome Completo</label>
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.NomeCompleto, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite seu nome completo" } })
+                        @Html.ValidationMessageFor(model => model.NomeCompleto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="example-email" class="col-md-12">Data de Nascimento</label>
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                        @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-primary btn-flat m-b-20 m-t-20 pull-right">Atualizar Perfil</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
